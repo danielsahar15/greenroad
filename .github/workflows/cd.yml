@@ -1,0 +1,46 @@
+name: CD
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      TERRAFORM_DIR: terraform
+      NAMESPACE: dev            # Per Env prod/staging/dev
+      INGRESS_HOST: ${{ secrets.INGRESS_HOST }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE }}
+          aws-region: us-east-1
+
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.0
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      - name: Terraform Init
+        working-directory: ${{ env.TERRAFORM_DIR }}
+        run: terraform init
+
+      - name: Get Terraform Outputs
+        working-directory: ${{ env.TERRAFORM_DIR }}
+        id: tf_output
+        run: |
+          echo "ecr_repo=$(terraform output -raw ecr_repository_name)" >> $GITHUB_ENV
+
+      - name: Deploy road-safety
+        run: |
+          helm upgrade --install road-safety ./helm/road-safety \
+            --namespace $NAMESPACE --wait \
+            --set image.repository=$ecr_repo \
+            --set image.tag=${GITHUB_SHA} \
+            --set ingress.host=$INGRESS_HOST \
