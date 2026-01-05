@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>סכנות בדרכים</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            direction: rtl;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .success {
+            color: green;
+            margin-top: 10px;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .high { color: red; }
+        .medium { color: orange; }
+        .low { color: green; }
+    </style>
+</head>
+<body>
+    <h1>דיווח על מפגעי בטיחות בדרכים</h1>
+
+    <form action="/hazards" method="post">
+        <label for="hazard_type">מפגע בטיחות:</label>
+        <select name="hazard_type" id="hazard_type" required>
+            <option value="">בחר סוג...</option>
+            <option value="pothole">בור בכביש</option>
+            <option value="broken_traffic_light">רמזור שבור</option>
+            <option value="fallen_tree">עץ נפול</option>
+            <option value="construction">אזור בנייה</option>
+            <option value="other">אחר</option>
+        </select>
+
+        <label for="severity">חומרה:</label>
+        <select name="severity" id="severity" required>
+            <option value="">בחר חומרה...</option>
+            <option value="high">גבוהה</option>
+            <option value="medium">בינונית</option>
+            <option value="low">נמוכה</option>
+        </select>
+
+        <label for="location">מיקום:</label>
+        <input type="text" name="location" id="location" placeholder="הזן מיקום..." required>
+
+        <button type="submit">דווח על סכנה</button>
+    </form>
+
+    <h2>סכנות מדווחות</h2>
+    {% if hazards %}
+    <table>
+        <thead>
+            <tr>
+                <th>סוג</th>
+                <th>חומרה</th>
+                <th>מיקום</th>
+                <th>דווח ב</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hazard in hazards %}
+            <tr>
+                <td>{{ hazard[0].replace('_', ' ').title() }}</td>
+                <td class="{{ hazard[1] }}">{{ hazard[1].title() }}</td>
+                <td>{{ hazard[2] }}</td>
+                <td>{{ hazard[3] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>עדיין לא דווחו סכנות.</p>
+    {% endif %}
+</body>
+</html>

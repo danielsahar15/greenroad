@@ -1,0 +1,7 @@
+
+apiVersion: v2
+name: road-safety
+description: A Helm chart for Road Safety hazard reporting app
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

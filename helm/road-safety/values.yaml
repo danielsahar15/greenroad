@@ -1,0 +1,28 @@
+
+image:
+  repository: road-safety
+  tag: latest
+
+service:
+  port: 80
+  targetPort: 8000
+
+ingress:
+  enabled: true
+  host: dev.road-safety.com
+  class: alb
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "100m"
+  limits:
+    memory: "256Mi"
+    cpu: "200m"
+
+replicas: 1
