@@ -1,7 +1,7 @@
 
 # Road Safety  - by Daniel Sahar
 
-This repository demonstrates a complete cloud-native deployment of a simple interactive **Road Safety web application** built with Python (FastAPI). It showcases containerization, Kubernetes orchestration on AWS EKS, CI/CD with GitHub Actions, infrastructure as code with Terraform, and monitoring with CloudWatch.
+This repository demonstrates a complete cloud-native deployment of **Road Safety web application - for reporting road hazards** built with Python (FastAPI) . It showcases containerization, Kubernetes orchestration on AWS EKS, CI/CD with GitHub Actions, infrastructure as code with Terraform, and monitoring with CloudWatch.
 
 ## Architecture Overview
 - **App**: FastAPI web app with SQLite DB for hazard reporting.
