@@ -1,5 +1,5 @@
 
-# Road Safety Demo – EKS Deployment
+# Road Safety  - by Daniel Sahar
 
 This repository demonstrates a complete cloud-native deployment of a simple interactive **Road Safety web application** built with Python (FastAPI). It showcases containerization, Kubernetes orchestration on AWS EKS, CI/CD with GitHub Actions, infrastructure as code with Terraform, and monitoring with CloudWatch.
 
